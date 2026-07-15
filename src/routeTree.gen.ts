@@ -9,68 +9,180 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as EmptyLayoutRouteImport } from './routes/_emptyLayout'
+import { Route as BaseLayoutRouteImport } from './routes/_baseLayout'
+import { Route as BaseLayoutIndexRouteImport } from './routes/_baseLayout/index'
+import { Route as EmptyLayoutVerifyEmailRouteImport } from './routes/_emptyLayout/verify-email'
+import { Route as EmptyLayoutSignupRouteImport } from './routes/_emptyLayout/signup'
+import { Route as EmptyLayoutLoginRouteImport } from './routes/_emptyLayout/login'
+import { Route as BaseLayoutDashboardRouteImport } from './routes/_baseLayout/dashboard'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const EmptyLayoutRoute = EmptyLayoutRouteImport.update({
+  id: '/_emptyLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const BaseLayoutRoute = BaseLayoutRouteImport.update({
+  id: '/_baseLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaseLayoutIndexRoute = BaseLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => BaseLayoutRoute,
+} as any)
+const EmptyLayoutVerifyEmailRoute = EmptyLayoutVerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => EmptyLayoutRoute,
+} as any)
+const EmptyLayoutSignupRoute = EmptyLayoutSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => EmptyLayoutRoute,
+} as any)
+const EmptyLayoutLoginRoute = EmptyLayoutLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => EmptyLayoutRoute,
+} as any)
+const BaseLayoutDashboardRoute = BaseLayoutDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => BaseLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/': typeof BaseLayoutIndexRoute
+  '/dashboard': typeof BaseLayoutDashboardRoute
+  '/login': typeof EmptyLayoutLoginRoute
+  '/signup': typeof EmptyLayoutSignupRoute
+  '/verify-email': typeof EmptyLayoutVerifyEmailRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/': typeof BaseLayoutIndexRoute
+  '/dashboard': typeof BaseLayoutDashboardRoute
+  '/login': typeof EmptyLayoutLoginRoute
+  '/signup': typeof EmptyLayoutSignupRoute
+  '/verify-email': typeof EmptyLayoutVerifyEmailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/_baseLayout': typeof BaseLayoutRouteWithChildren
+  '/_emptyLayout': typeof EmptyLayoutRouteWithChildren
+  '/_baseLayout/dashboard': typeof BaseLayoutDashboardRoute
+  '/_emptyLayout/login': typeof EmptyLayoutLoginRoute
+  '/_emptyLayout/signup': typeof EmptyLayoutSignupRoute
+  '/_emptyLayout/verify-email': typeof EmptyLayoutVerifyEmailRoute
+  '/_baseLayout/': typeof BaseLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/dashboard' | '/login' | '/signup' | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/dashboard' | '/login' | '/signup' | '/verify-email'
+  id:
+    | '__root__'
+    | '/_baseLayout'
+    | '/_emptyLayout'
+    | '/_baseLayout/dashboard'
+    | '/_emptyLayout/login'
+    | '/_emptyLayout/signup'
+    | '/_emptyLayout/verify-email'
+    | '/_baseLayout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  BaseLayoutRoute: typeof BaseLayoutRouteWithChildren
+  EmptyLayoutRoute: typeof EmptyLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/_emptyLayout': {
+      id: '/_emptyLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof EmptyLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_baseLayout': {
+      id: '/_baseLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof BaseLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_baseLayout/': {
+      id: '/_baseLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof BaseLayoutIndexRouteImport
+      parentRoute: typeof BaseLayoutRoute
+    }
+    '/_emptyLayout/verify-email': {
+      id: '/_emptyLayout/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof EmptyLayoutVerifyEmailRouteImport
+      parentRoute: typeof EmptyLayoutRoute
+    }
+    '/_emptyLayout/signup': {
+      id: '/_emptyLayout/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof EmptyLayoutSignupRouteImport
+      parentRoute: typeof EmptyLayoutRoute
+    }
+    '/_emptyLayout/login': {
+      id: '/_emptyLayout/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof EmptyLayoutLoginRouteImport
+      parentRoute: typeof EmptyLayoutRoute
+    }
+    '/_baseLayout/dashboard': {
+      id: '/_baseLayout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof BaseLayoutDashboardRouteImport
+      parentRoute: typeof BaseLayoutRoute
     }
   }
 }
 
+interface BaseLayoutRouteChildren {
+  BaseLayoutDashboardRoute: typeof BaseLayoutDashboardRoute
+  BaseLayoutIndexRoute: typeof BaseLayoutIndexRoute
+}
+
+const BaseLayoutRouteChildren: BaseLayoutRouteChildren = {
+  BaseLayoutDashboardRoute: BaseLayoutDashboardRoute,
+  BaseLayoutIndexRoute: BaseLayoutIndexRoute,
+}
+
+const BaseLayoutRouteWithChildren = BaseLayoutRoute._addFileChildren(
+  BaseLayoutRouteChildren,
+)
+
+interface EmptyLayoutRouteChildren {
+  EmptyLayoutLoginRoute: typeof EmptyLayoutLoginRoute
+  EmptyLayoutSignupRoute: typeof EmptyLayoutSignupRoute
+  EmptyLayoutVerifyEmailRoute: typeof EmptyLayoutVerifyEmailRoute
+}
+
+const EmptyLayoutRouteChildren: EmptyLayoutRouteChildren = {
+  EmptyLayoutLoginRoute: EmptyLayoutLoginRoute,
+  EmptyLayoutSignupRoute: EmptyLayoutSignupRoute,
+  EmptyLayoutVerifyEmailRoute: EmptyLayoutVerifyEmailRoute,
+}
+
+const EmptyLayoutRouteWithChildren = EmptyLayoutRoute._addFileChildren(
+  EmptyLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  BaseLayoutRoute: BaseLayoutRouteWithChildren,
+  EmptyLayoutRoute: EmptyLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
