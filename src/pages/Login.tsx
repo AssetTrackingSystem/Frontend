@@ -53,9 +53,9 @@ export default function Login() {
                   <label className="block text-[10px] font-mono uppercase tracking-widest text-zinc-500">
                     Password
                   </label>
-                  <a href="#" className="text-[10px] font-mono uppercase tracking-widest text-brand-green hover:brightness-125">
-                    Reset
-                  </a>
+               <Link to="/forgot-password" className="text-[10px] font-mono uppercase tracking-widest text-brand-green hover:brightness-125">
+                    Forgot password?
+                  </Link>
                 </div>
                 <input
                   type="password"

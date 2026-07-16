@@ -14,7 +14,9 @@ import { Route as BaseLayoutRouteImport } from './routes/_baseLayout'
 import { Route as BaseLayoutIndexRouteImport } from './routes/_baseLayout/index'
 import { Route as EmptyLayoutVerifyEmailRouteImport } from './routes/_emptyLayout/verify-email'
 import { Route as EmptyLayoutSignupRouteImport } from './routes/_emptyLayout/signup'
+import { Route as EmptyLayoutResetPasswordRouteImport } from './routes/_emptyLayout/reset-password'
 import { Route as EmptyLayoutLoginRouteImport } from './routes/_emptyLayout/login'
+import { Route as EmptyLayoutForgotPasswordRouteImport } from './routes/_emptyLayout/forgot-password'
 import { Route as BaseLayoutDashboardRouteImport } from './routes/_baseLayout/dashboard'
 
 const EmptyLayoutRoute = EmptyLayoutRouteImport.update({
@@ -40,11 +42,23 @@ const EmptyLayoutSignupRoute = EmptyLayoutSignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => EmptyLayoutRoute,
 } as any)
+const EmptyLayoutResetPasswordRoute =
+  EmptyLayoutResetPasswordRouteImport.update({
+    id: '/reset-password',
+    path: '/reset-password',
+    getParentRoute: () => EmptyLayoutRoute,
+  } as any)
 const EmptyLayoutLoginRoute = EmptyLayoutLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => EmptyLayoutRoute,
 } as any)
+const EmptyLayoutForgotPasswordRoute =
+  EmptyLayoutForgotPasswordRouteImport.update({
+    id: '/forgot-password',
+    path: '/forgot-password',
+    getParentRoute: () => EmptyLayoutRoute,
+  } as any)
 const BaseLayoutDashboardRoute = BaseLayoutDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -54,14 +68,18 @@ const BaseLayoutDashboardRoute = BaseLayoutDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof BaseLayoutIndexRoute
   '/dashboard': typeof BaseLayoutDashboardRoute
+  '/forgot-password': typeof EmptyLayoutForgotPasswordRoute
   '/login': typeof EmptyLayoutLoginRoute
+  '/reset-password': typeof EmptyLayoutResetPasswordRoute
   '/signup': typeof EmptyLayoutSignupRoute
   '/verify-email': typeof EmptyLayoutVerifyEmailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof BaseLayoutIndexRoute
   '/dashboard': typeof BaseLayoutDashboardRoute
+  '/forgot-password': typeof EmptyLayoutForgotPasswordRoute
   '/login': typeof EmptyLayoutLoginRoute
+  '/reset-password': typeof EmptyLayoutResetPasswordRoute
   '/signup': typeof EmptyLayoutSignupRoute
   '/verify-email': typeof EmptyLayoutVerifyEmailRoute
 }
@@ -70,22 +88,40 @@ export interface FileRoutesById {
   '/_baseLayout': typeof BaseLayoutRouteWithChildren
   '/_emptyLayout': typeof EmptyLayoutRouteWithChildren
   '/_baseLayout/dashboard': typeof BaseLayoutDashboardRoute
+  '/_emptyLayout/forgot-password': typeof EmptyLayoutForgotPasswordRoute
   '/_emptyLayout/login': typeof EmptyLayoutLoginRoute
+  '/_emptyLayout/reset-password': typeof EmptyLayoutResetPasswordRoute
   '/_emptyLayout/signup': typeof EmptyLayoutSignupRoute
   '/_emptyLayout/verify-email': typeof EmptyLayoutVerifyEmailRoute
   '/_baseLayout/': typeof BaseLayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/signup' | '/verify-email'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/verify-email'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/signup' | '/verify-email'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/login'
+    | '/reset-password'
+    | '/signup'
+    | '/verify-email'
   id:
     | '__root__'
     | '/_baseLayout'
     | '/_emptyLayout'
     | '/_baseLayout/dashboard'
+    | '/_emptyLayout/forgot-password'
     | '/_emptyLayout/login'
+    | '/_emptyLayout/reset-password'
     | '/_emptyLayout/signup'
     | '/_emptyLayout/verify-email'
     | '/_baseLayout/'
@@ -133,11 +169,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmptyLayoutSignupRouteImport
       parentRoute: typeof EmptyLayoutRoute
     }
+    '/_emptyLayout/reset-password': {
+      id: '/_emptyLayout/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof EmptyLayoutResetPasswordRouteImport
+      parentRoute: typeof EmptyLayoutRoute
+    }
     '/_emptyLayout/login': {
       id: '/_emptyLayout/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof EmptyLayoutLoginRouteImport
+      parentRoute: typeof EmptyLayoutRoute
+    }
+    '/_emptyLayout/forgot-password': {
+      id: '/_emptyLayout/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof EmptyLayoutForgotPasswordRouteImport
       parentRoute: typeof EmptyLayoutRoute
     }
     '/_baseLayout/dashboard': {
@@ -165,13 +215,17 @@ const BaseLayoutRouteWithChildren = BaseLayoutRoute._addFileChildren(
 )
 
 interface EmptyLayoutRouteChildren {
+  EmptyLayoutForgotPasswordRoute: typeof EmptyLayoutForgotPasswordRoute
   EmptyLayoutLoginRoute: typeof EmptyLayoutLoginRoute
+  EmptyLayoutResetPasswordRoute: typeof EmptyLayoutResetPasswordRoute
   EmptyLayoutSignupRoute: typeof EmptyLayoutSignupRoute
   EmptyLayoutVerifyEmailRoute: typeof EmptyLayoutVerifyEmailRoute
 }
 
 const EmptyLayoutRouteChildren: EmptyLayoutRouteChildren = {
+  EmptyLayoutForgotPasswordRoute: EmptyLayoutForgotPasswordRoute,
   EmptyLayoutLoginRoute: EmptyLayoutLoginRoute,
+  EmptyLayoutResetPasswordRoute: EmptyLayoutResetPasswordRoute,
   EmptyLayoutSignupRoute: EmptyLayoutSignupRoute,
   EmptyLayoutVerifyEmailRoute: EmptyLayoutVerifyEmailRoute,
 }
